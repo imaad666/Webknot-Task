@@ -1,4 +1,4 @@
-# Campus Event Management System - My Coding Journey 💀
+# Campus Event Management System - My Coding Journey
 
 this is my submission for the webknot campus drive assignment.
 
