@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebKnotUni - Campus Event Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #cccccc;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 2px solid #ffffff;
+            background-color: transparent;
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 150px;
+        }
+
+        .btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn.admin {
+            border-color: #ffffff;
+        }
+
+        .btn.student {
+            border-color: #ffffff;
+        }
+
+        .description {
+            margin-top: 3rem;
+            color: #888888;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 80%;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">WebKnotUni</div>
+        <div class="subtitle">Campus Event Management Platform</div>
+
+        <div class="buttons">
+            <button class="btn admin" onclick="navigateToAdmin()">
+                Admin Portal
+            </button>
+            <button class="btn student" onclick="navigateToStudent()">
+                Student Access
+            </button>
+        </div>
+
+        <div class="description">
+            <p>Welcome to the WebKnotUni Campus Event Management System</p>
+            <p>Admins can manage events and track attendance. Students can browse events, register, and provide
+                feedback.</p>
+        </div>
+    </div>
+
+    <script>
+        function navigateToAdmin() {
+            window.location.href = 'admin-login.html';
+        }
+
+        function navigateToStudent() {
+            window.location.href = 'student-login.html';
+        }
+    </script>
+</body>
+
+</html>

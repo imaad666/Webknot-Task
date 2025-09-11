@@ -1,0 +1,56 @@
+spring:
+  profiles:
+    active: dev
+  
+  # SQLite Database for development (persistent file-based storage)
+  datasource:
+    url: jdbc:sqlite:wku_campus_events.db
+    driver-class-name: org.sqlite.JDBC
+    username: 
+    password: 
+      
+  jpa:
+    hibernate:
+      ddl-auto: create # Create tables on first run, then keep data
+    show-sql: true
+    format-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.community.dialect.SQLiteDialect
+        format_sql: true
+        
+server:
+  port: 8080
+  
+# Application specific properties
+app:
+  college:
+    id: WKU
+    name: WebKnotUni
+    domain: wku.edu
+  qr:
+    base-url: https://campus-event-qr.vercel.app/checkin/
+    
+---
+# Production profile for Vercel deployment
+spring:
+  config:
+    activate:
+      on-profile: prod
+      
+  datasource:
+    url: ${DATABASE_URL}
+    driver-class-name: org.postgresql.Driver
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    
+  jpa:
+    hibernate:
+      ddl-auto: validate # Don't auto-create in production
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        
+server:
+  port: ${PORT:8080}

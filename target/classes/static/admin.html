@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - WebKnotUni</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #111111;
+            padding: 1rem 2rem;
+            border-bottom: 2px solid #333333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #ffffff;
+            font-size: 1.8rem;
+        }
+
+        .back-btn {
+            padding: 0.5rem 1rem;
+            background-color: transparent;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #111111;
+            border-right: 2px solid #333333;
+            padding: 2rem 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 1rem 2rem;
+            color: #ffffff;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background-color: #222222;
+            border-left-color: #ffffff;
+        }
+
+        .content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            background-color: transparent;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .btn-primary {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .btn-primary:hover {
+            background-color: #cccccc;
+        }
+
+        .btn-danger {
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+
+        .btn-danger:hover {
+            background-color: #ff4444;
+            color: #ffffff;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #444444;
+            border-radius: 4px;
+            background-color: #222222;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ffffff;
+            background-color: #333333;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #333333;
+        }
+
+        .table th {
+            background-color: #222222;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .table td {
+            background-color: #111111;
+            color: #ffffff;
+        }
+
+        .table tr:hover td {
+            background-color: #222222;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: #222222;
+            margin: 5% auto;
+            padding: 2rem;
+            border: 1px solid #444444;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+            max-height: 90vh;
+            color: #ffffff;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close {
+            color: #ffffff;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #cccccc;
+        }
+
+        .card {
+            background-color: #222222;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border: 1px solid #333333;
+        }
+
+        .card h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: #222222;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #333333;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            border: 1px solid #333333;
+        }
+
+        .alert-success {
+            background-color: #1a4d1a;
+            color: #66ff66;
+            border-color: #66ff66;
+        }
+
+        .alert-error {
+            background-color: #4d1a1a;
+            color: #ff6666;
+            border-color: #ff6666;
+        }
+
+        .qr-display {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .qr-display img {
+            max-width: 300px;
+            border: 2px solid #ffffff;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .sidebar ul {
+                display: flex;
+                overflow-x: auto;
+            }
+
+            .sidebar li {
+                flex-shrink: 0;
+                margin-bottom: 0;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 2% auto;
+                max-height: 95vh;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Admin Portal - WebKnotUni</h1>
+        <div>
+            <button onclick="logout()" class="back-btn" style="margin-right: 1rem;">Logout</button>
+            <a href="index.html" class="back-btn">← Back to Home</a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="#" class="nav-link active" data-tab="dashboard">Dashboard</a></li>
+                <li><a href="#" class="nav-link" data-tab="events">Event Management</a></li>
+                <li><a href="#" class="nav-link" data-tab="attendance">QR Attendance</a></li>
+                <li><a href="#" class="nav-link" data-tab="reports">Reports & Analytics</a></li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <h2>Dashboard Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalEvents">0</div>
+                        <div class="stat-label">Total Events</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalStudents">0</div>
+                        <div class="stat-label">Total Students</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalRegistrations">0</div>
+                        <div class="stat-label">Total Registrations</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avgAttendance">0%</div>
+                        <div class="stat-label">Average Attendance</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Recent Events</h3>
+                    <div id="recentEventsContainer">
+                        <p>Loading recent events...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Management Tab -->
+            <div id="events" class="tab-content">
+                <h2>Event Management</h2>
+
+                <button class="btn btn-primary" onclick="showCreateEventModal()">Create New Event</button>
+
+                <div class="card">
+                    <h3>All Events</h3>
+                    <table class="table" id="eventsTable">
+                        <thead>
+                            <tr>
+                                <th>Event ID</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Date</th>
+                                <th>Capacity</th>
+                                <th>Registrations</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- QR Attendance Tab -->
+            <div id="attendance" class="tab-content">
+                <h2>QR Code Attendance</h2>
+
+                <div class="card">
+                    <h3>Mark Attendance</h3>
+                    <div class="form-group">
+                        <label for="qrToken">QR Token or Registration ID:</label>
+                        <input type="text" id="qrToken" placeholder="Scan QR code or enter token manually">
+                    </div>
+                    <button class="btn btn-primary" onclick="markAttendance()">Mark Attendance</button>
+                </div>
+
+                <div class="card">
+                    <h3>Recent Attendance</h3>
+                    <div id="recentAttendanceContainer">
+                        <p>Loading recent attendance...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="reports" class="tab-content">
+                <h2>Reports & Analytics</h2>
+
+                <div class="card">
+                    <h3>Generate Reports</h3>
+                    <button class="btn" onclick="loadEventPopularityReport()">Event Popularity Report</button>
+                    <button class="btn" onclick="loadStudentParticipationReport()">Student Participation Report</button>
+                    <button class="btn" onclick="loadAttendanceReport()">Attendance Report</button>
+                    <button class="btn" onclick="loadFeedbackReport()">Feedback Report</button>
+                    <button class="btn" onclick="loadTopActiveStudents()">Top Active Students</button>
+                    <button class="btn" onclick="loadEventsByType()">Events by Type</button>
+                </div>
+
+                <div class="card">
+                    <h3>Report Results</h3>
+                    <div id="reportResults">
+                        <p>Select a report to view results</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="createEventModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('createEventModal')">&times;</span>
+            <h2>Create New Event</h2>
+            <form id="createEventForm">
+                <div class="form-group">
+                    <label for="eventName">Event Name:</label>
+                    <input type="text" id="eventName" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventType">Event Type:</label>
+                    <select id="eventType" required>
+                        <option value="">Select Type</option>
+                        <option value="Workshop">Workshop</option>
+                        <option value="Seminar">Seminar</option>
+                        <option value="Fest">Fest</option>
+                        <option value="Hackathon">Hackathon</option>
+                        <option value="Tech Talk">Tech Talk</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">Event Date:</label>
+                    <input type="date" id="eventDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventTime">Event Time:</label>
+                    <input type="time" id="eventTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventLocation">Venue:</label>
+                    <input type="text" id="eventLocation" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventCapacity">Capacity:</label>
+                    <input type="number" id="eventCapacity" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="organizerName">Organizer Name:</label>
+                    <input type="text" id="organizerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventDescription">Description:</label>
+                    <textarea id="eventDescription" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Event</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentEvents = [];
+        let currentStudents = [];
+
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const tabName = this.getAttribute('data-tab');
+                showTab(tabName);
+
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+
+            // Load data for specific tabs
+            if (tabName === 'dashboard') {
+                loadDashboard();
+            } else if (tabName === 'events') {
+                loadEvents();
+            } else if (tabName === 'attendance') {
+                loadRecentAttendance();
+            }
+        }
+
+        // Dashboard functions
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/api/reports/dashboard');
+                const data = await response.json();
+
+                document.getElementById('totalEvents').textContent = data.totalEvents || 0;
+                document.getElementById('totalStudents').textContent = data.totalStudents || 0;
+                document.getElementById('totalRegistrations').textContent = data.totalRegistrations || 0;
+                document.getElementById('avgAttendance').textContent = (data.averageAttendance || 0).toFixed(1) + '%';
+
+                // Load recent events
+                loadRecentEvents();
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                showAlert('Error loading dashboard data', 'error');
+            }
+        }
+
+        async function loadRecentEvents() {
+            try {
+                const response = await fetch('/api/events');
+                const events = await response.json();
+                const recentEvents = events.slice(-5).reverse();
+
+                const container = document.getElementById('recentEventsContainer');
+                if (recentEvents.length === 0) {
+                    container.innerHTML = '<p>No events found</p>';
+                    return;
+                }
+
+                container.innerHTML = recentEvents.map(event => `
+                    <div style="padding: 0.5rem; border-bottom: 1px solid #333; margin-bottom: 0.5rem;">
+                        <strong>${event.eventName}</strong> - ${event.eventType} - ${new Date(event.eventDate).toLocaleDateString()}
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading recent events:', error);
+            }
+        }
+
+        // Event management functions
+        async function loadEvents() {
+            try {
+                const response = await fetch('/api/events');
+                currentEvents = await response.json();
+                renderEventsTable();
+            } catch (error) {
+                console.error('Error loading events:', error);
+                showAlert('Error loading events', 'error');
+            }
+        }
+
+        function renderEventsTable() {
+            const tbody = document.querySelector('#eventsTable tbody');
+            if (currentEvents.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No events found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = currentEvents.map(event => `
+                <tr>
+                    <td>${event.eventId}</td>
+                    <td>${event.eventName}</td>
+                    <td>${event.eventType}</td>
+                    <td>${new Date(event.eventDate).toLocaleDateString()}</td>
+                    <td>${event.capacity}</td>
+                    <td>${event.registrationCount || 0}</td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteEvent('${event.eventId}')">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function showCreateEventModal() {
+            document.getElementById('createEventModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Event form submission
+        document.getElementById('createEventForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const eventData = {
+                eventName: document.getElementById('eventName').value,
+                eventType: document.getElementById('eventType').value,
+                eventDate: document.getElementById('eventDate').value,
+                eventTime: document.getElementById('eventTime').value,
+                venue: document.getElementById('eventLocation').value,
+                capacity: parseInt(document.getElementById('eventCapacity').value),
+                organizerName: document.getElementById('organizerName').value,
+                organizerEmail: 'admin@wku.edu', // Default admin email
+                description: document.getElementById('eventDescription').value
+            };
+
+            try {
+                const response = await fetch('/api/events', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(eventData)
+                });
+
+                if (response.ok) {
+                    showAlert('Event created successfully!', 'success');
+                    closeModal('createEventModal');
+                    document.getElementById('createEventForm').reset();
+                    loadEvents();
+                    loadDashboard();
+                } else {
+                    const errorData = await response.text();
+                    showAlert('Error creating event: ' + errorData, 'error');
+                }
+            } catch (error) {
+                console.error('Error creating event:', error);
+                showAlert('Error creating event', 'error');
+            }
+        });
+
+        async function deleteEvent(eventId) {
+            if (!confirm('Are you sure you want to delete this event?')) return;
+
+            try {
+                const response = await fetch(`/api/events/${eventId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showAlert('Event deleted successfully!', 'success');
+                    loadEvents();
+                    loadDashboard();
+                } else {
+                    showAlert('Error deleting event', 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting event:', error);
+                showAlert('Error deleting event', 'error');
+            }
+        }
+
+        // Attendance functions
+        async function markAttendance() {
+            const qrToken = document.getElementById('qrToken').value.trim();
+            if (!qrToken) {
+                showAlert('Please enter a QR token or registration ID', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/attendance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ qrToken: qrToken })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    showAlert('Attendance marked successfully!', 'success');
+                    document.getElementById('qrToken').value = '';
+                    loadRecentAttendance();
+                } else {
+                    const errorData = await response.text();
+                    showAlert('Error marking attendance: ' + errorData, 'error');
+                }
+            } catch (error) {
+                console.error('Error marking attendance:', error);
+                showAlert('Error marking attendance', 'error');
+            }
+        }
+
+        async function loadRecentAttendance() {
+            try {
+                const response = await fetch('/api/attendance');
+                const attendance = await response.json();
+                const recentAttendance = attendance.slice(-10).reverse();
+
+                const container = document.getElementById('recentAttendanceContainer');
+                if (recentAttendance.length === 0) {
+                    container.innerHTML = '<p>No attendance records found</p>';
+                    return;
+                }
+
+                container.innerHTML = recentAttendance.map(record => `
+                    <div style="padding: 0.5rem; border-bottom: 1px solid #333; margin-bottom: 0.5rem;">
+                        <strong>Student:</strong> ${record.registration.student.firstName} ${record.registration.student.lastName}<br>
+                        <strong>Event:</strong> ${record.registration.event.eventName}<br>
+                        <strong>Time:</strong> ${new Date(record.attendanceTime).toLocaleString()}
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading recent attendance:', error);
+            }
+        }
+
+        // Report functions
+        async function loadEventPopularityReport() {
+            try {
+                const response = await fetch('/api/reports/event-popularity');
+                const data = await response.json();
+                displayReportResults('Event Popularity Report', data, ['Event Name', 'Event Type', 'Registrations'],
+                    item => [item.eventName, item.eventType, item.registrationCount]);
+            } catch (error) {
+                showAlert('Error loading event popularity report', 'error');
+            }
+        }
+
+        async function loadStudentParticipationReport() {
+            try {
+                const response = await fetch('/api/reports/student-participation');
+                const data = await response.json();
+                displayReportResults('Student Participation Report', data, ['Student Name', 'Student ID', 'Events Attended'],
+                    item => [item.studentName, item.studentId, item.eventsAttended]);
+            } catch (error) {
+                showAlert('Error loading student participation report', 'error');
+            }
+        }
+
+        async function loadAttendanceReport() {
+            try {
+                const response = await fetch('/api/reports/attendance-percentage');
+                const data = await response.json();
+                displayReportResults('Attendance Report', data, ['Event Name', 'Total Registrations', 'Total Attendance', 'Percentage'],
+                    item => [item.eventName, item.totalRegistrations, item.totalAttendance, item.attendancePercentage.toFixed(1) + '%']);
+            } catch (error) {
+                showAlert('Error loading attendance report', 'error');
+            }
+        }
+
+        async function loadFeedbackReport() {
+            try {
+                const response = await fetch('/api/reports/feedback-scores');
+                const data = await response.json();
+                displayReportResults('Feedback Report', data, ['Event Name', 'Total Feedback', 'Average Rating'],
+                    item => [item.eventName, item.totalFeedback, item.averageRating.toFixed(1)]);
+            } catch (error) {
+                showAlert('Error loading feedback report', 'error');
+            }
+        }
+
+        async function loadTopActiveStudents() {
+            try {
+                const response = await fetch('/api/reports/top-active-students');
+                const data = await response.json();
+                displayReportResults('Top Active Students', data, ['Rank', 'Student Name', 'Student ID', 'Events Attended'],
+                    (item, index) => [index + 1, item.studentName, item.studentId, item.eventsAttended]);
+            } catch (error) {
+                showAlert('Error loading top active students report', 'error');
+            }
+        }
+
+        async function loadEventsByType() {
+            try {
+                const response = await fetch('/api/reports/events-by-type?eventType=Workshop');
+                const data = await response.json();
+                displayReportResults('Events by Type (Workshop)', data, ['Event Name', 'Date', 'Capacity', 'Registrations'],
+                    item => [item.eventName, new Date(item.eventDate).toLocaleDateString(), item.capacity, item.registrationCount || 0]);
+            } catch (error) {
+                showAlert('Error loading events by type report', 'error');
+            }
+        }
+
+        function displayReportResults(title, data, headers, rowMapper) {
+            const container = document.getElementById('reportResults');
+
+            if (!data || data.length === 0) {
+                container.innerHTML = `<h3>${title}</h3><p>No data available</p>`;
+                return;
+            }
+
+            const tableHTML = `
+                <h3>${title}</h3>
+                <table class="table">
+                    <thead>
+                        <tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>
+                    </thead>
+                    <tbody>
+                        ${data.map((item, index) => `
+                            <tr>${rowMapper(item, index).map(cell => `<td>${cell}</td>`).join('')}</tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        // Utility functions
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+
+            const content = document.querySelector('.content');
+            content.insertBefore(alertDiv, content.firstChild);
+
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Authentication check
+        function checkAuthentication() {
+            const authToken = sessionStorage.getItem('adminAuth');
+            const authTime = sessionStorage.getItem('authTime');
+
+            if (!authToken || authToken !== 'authenticated') {
+                alert('Access Denied: Please login first');
+                window.location.href = 'admin-login.html';
+                return false;
+            }
+
+            // Check if session is still valid (12 hours)
+            if (authTime) {
+                const sessionAge = Date.now() - parseInt(authTime);
+                const maxSessionAge = 12 * 60 * 60 * 1000; // 12 hours
+
+                if (sessionAge >= maxSessionAge) {
+                    alert('Session expired. Please login again.');
+                    sessionStorage.removeItem('adminAuth');
+                    sessionStorage.removeItem('adminUser');
+                    sessionStorage.removeItem('authTime');
+                    window.location.href = 'admin-login.html';
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('adminAuth');
+                sessionStorage.removeItem('adminUser');
+                sessionStorage.removeItem('authTime');
+                window.location.href = 'admin-login.html';
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            if (checkAuthentication()) {
+                loadDashboard();
+
+                // Show logged in user
+                const adminUser = sessionStorage.getItem('adminUser');
+                if (adminUser) {
+                    document.querySelector('.header h1').textContent = `Admin Portal - Welcome, ${adminUser}`;
+                }
+            }
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function (event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+
+</html>

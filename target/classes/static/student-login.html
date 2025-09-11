@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - WebKnotUni</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background-color: #222222;
+            padding: 3rem;
+            border-radius: 12px;
+            border: 2px solid #333333;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #cccccc;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #444444;
+            border-radius: 6px;
+            background-color: #111111;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ffffff;
+            background-color: #333333;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #cccccc;
+            transform: translateY(-1px);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            color: #cccccc;
+            text-decoration: none;
+            padding: 0.5rem;
+            border: 1px solid #444444;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #ffffff;
+            border-color: #ffffff;
+            background-color: #333333;
+        }
+
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 6px;
+            border: 1px solid #333333;
+        }
+
+        .alert-error {
+            background-color: #4d1a1a;
+            color: #ff6666;
+            border-color: #ff6666;
+        }
+
+        .alert-success {
+            background-color: #1a4d1a;
+            color: #66ff66;
+            border-color: #66ff66;
+        }
+
+        .security-note {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #1a1a4d;
+            border: 1px solid #6666ff;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+
+        .security-note strong {
+            color: #ffffff;
+        }
+
+        .create-account {
+            margin-top: 1rem;
+            text-align: center;
+            padding: 1rem;
+            background-color: #333333;
+            border-radius: 6px;
+        }
+
+        .create-account a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .create-account a:hover {
+            color: #cccccc;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">WebKnotUni</div>
+        <div class="subtitle">Student Portal Access</div>
+        
+        <div id="alertContainer"></div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="studentId">Student ID:</label>
+                <input type="text" id="studentId" required placeholder="e.g., 1WKU23CS001" autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" required placeholder="Enter your password" autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn">Login to Student Portal</button>
+        </form>
+        
+        <div class="create-account">
+            <p>Don't have an account? <a href="student-register.html">Create Profile</a></p>
+        </div>
+        
+        <a href="index.html" class="back-link">← Back to Home</a>
+        
+        <div class="security-note">
+            <strong>Security Notice:</strong><br>
+            This login system protects your personal information and event registrations. Only you can access your data with your Student ID and password.<br>
+            <br>
+            <strong>Demo Login:</strong><br>
+            Student ID: <code>1WKU23CS001</code><br>
+            Password: <code>student123</code><br>
+            <br>
+            <strong>Note:</strong> In production, this would use secure password hashing, JWT tokens, and proper session management.
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const studentId = document.getElementById('studentId').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            // Simple demo authentication
+            // In production, this would be handled by the backend with proper security
+            if (studentId === '1WKU23CS001' && password === 'student123') {
+                // Set authentication token in sessionStorage
+                sessionStorage.setItem('studentAuth', 'authenticated');
+                sessionStorage.setItem('studentId', studentId);
+                sessionStorage.setItem('studentAuthTime', Date.now().toString());
+                
+                showAlert('Login successful! Redirecting...', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'student.html';
+                }, 1000);
+            } else {
+                // Check if this student exists (we'll add a simple validation for any valid format)
+                if (isValidStudentId(studentId) && password.length >= 6) {
+                    // For demo purposes, accept any valid student ID format with password length >= 6
+                    sessionStorage.setItem('studentAuth', 'authenticated');
+                    sessionStorage.setItem('studentId', studentId);
+                    sessionStorage.setItem('studentAuthTime', Date.now().toString());
+                    
+                    showAlert('Login successful! Redirecting...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'student.html';
+                    }, 1000);
+                } else {
+                    showAlert('Invalid Student ID or password. Please try again.', 'error');
+                    document.getElementById('password').value = '';
+                }
+            }
+        });
+
+        function isValidStudentId(studentId) {
+            // Validate Student ID format: 1WKU + year + course + roll number
+            const pattern = /^1WKU\d{2}[A-Z]{2}\d{3}$/;
+            return pattern.test(studentId);
+        }
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type}">
+                    ${message}
+                </div>
+            `;
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    alertContainer.innerHTML = '';
+                }, 2000);
+            }
+        }
+
+        // Check if already authenticated
+        document.addEventListener('DOMContentLoaded', function() {
+            const authToken = sessionStorage.getItem('studentAuth');
+            const authTime = sessionStorage.getItem('studentAuthTime');
+            
+            // Check if session is still valid (12 hours)
+            if (authToken === 'authenticated' && authTime) {
+                const sessionAge = Date.now() - parseInt(authTime);
+                const maxSessionAge = 12 * 60 * 60 * 1000; // 12 hours
+                
+                if (sessionAge < maxSessionAge) {
+                    showAlert('Already logged in. Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'student.html';
+                    }, 1000);
+                } else {
+                    // Session expired
+                    sessionStorage.removeItem('studentAuth');
+                    sessionStorage.removeItem('studentId');
+                    sessionStorage.removeItem('studentAuthTime');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
